@@ -1,8 +1,10 @@
 FROM ubuntu:20.04
 
 RUN apt-get update && apt-get -y install curl jsvc mongodb-server openjdk-8-jre-headless
-RUN curl -o omada.deb https://static.tp-link.com/upload/software/2023/202309/20230920/Omada_SDN_Controller_v5.12.7_Linux_x64.deb
-RUN dpkg -i omada.deb
+RUN curl -o omada.tar.gz https://static.tp-link.com/upload/software/2023/202309/20230920/Omada_SDN_Controller_v5.12.7_linux_x64.tar.gz
+RUN tar zxvf omada.tar.gz
+RUN sed -i 's/${link_name} start //' Omada_SDN_Controller_v5.12.7_linux_x64/install.sh
+RUN bash Omada_SDN_Controller_v5.12.7_linux_x64/install.sh -y
 
 WORKDIR /opt/tplink/EAPController/lib
 EXPOSE 8088 8043 8843 29810/udp 29811 29812 29813 29814
